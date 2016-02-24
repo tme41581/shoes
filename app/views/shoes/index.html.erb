@@ -1,0 +1,31 @@
+<a href="/users/<%= @user.id %>">Go to Dashboard</a> <a href="/sessions" data-method = 'delete'>Logout</a>
+
+<h1>Hi <%= @user.first_name %>,</h1>
+
+<h2>All Products</h2>
+
+<table border='1'>
+	<tr>
+		<th>Product</th>
+		<th>Seller</th>
+		<th>Date Posted</th>
+		<th>Amount</th>
+		<th>Action</th>
+	</tr>
+	<% @shoes.each do |shoe| %>
+	<tr>
+		<td><%= shoe.product %></td>
+		<td><%= shoe.user.first_name %> <%= shoe.user.last_name %></td>
+		<td><%= shoe.created_at.to_s(:long) %></td>
+		<td><%= shoe.amount %></td>
+		<td>
+			<form action='/sales' method='post'>
+				<input type='hidden' name='authenticity_token' value='<%= form_authenticity_token %>'>
+				<input type='hidden' name='shoe_id' value='<%= shoe.id %>'>
+				<input type='hidden' name='seller_name' value = '<%= shoe.user.first_name %>'>
+				<button>Buy!</button>
+			</form>
+		</td>
+	</tr>
+	<% end %>
+</table>
